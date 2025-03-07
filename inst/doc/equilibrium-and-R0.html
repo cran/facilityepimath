@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>equilibrium-and-R0</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">equilibrium-and-R0</h1>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(facilityepimath)</span></code></pre></div>
+<p>The functions in this package analyze compartmental differential
+equation models, where the compartments are states of individuals who
+are co-located in a healthcare facility, for example, patients in a
+hospital or patients/residents of long-term care facility.</p>
+<p>Our example here is a hospital model with four compartments: two
+compartments <span class="math inline">\(C_1\)</span> and <span class="math inline">\(C_2\)</span> representing patients who are
+colonized with an infectious organism, and two compartments <span class="math inline">\(S_1\)</span> and <span class="math inline">\(S_2\)</span> representing patients who are
+susceptible to acquiring colonization with that same organism. The two
+colonized and susceptible states are distinguished by having potentially
+different infectivity to other patients and vulnerability to acquisition
+from other patients, respectively.</p>
+<p>A system of differential equations with those 4 compartments may take
+the following general form:</p>
+<p><span class="math display">\[ \frac{dS_1}{dt} =
+-(s_{21}+(a_{11}+a_{21})\alpha+\omega_1+h(t))S_1 + s_{12}S_2 + r_{11}C_1
++ r_{12}C_2\]</span></p>
+<p><span class="math display">\[\frac{dS_2}{dt} = s_{21}S_1 -
+(s_{12}+(a_{12}+a_{22})\alpha+\omega_2+h(t))S_2 + r_{21}C_1 + r_{22}C_2
+\]</span></p>
+<p><span class="math display">\[\frac{dC_1}{dt} = a_{11}\alpha S_1 +
+a_{12}\alpha S_2 - (c_{21}+r_{11}+r_{21}+\omega_3+h(t))C_1 + c_{12}C_2
+\]</span></p>
+<p><span class="math display">\[\frac{dC_2}{dt} = a_{21}\alpha S_1 +
+a_{22}\alpha S_2 + c_{21}C_1 - (c_{12}+r_{12}+r_{22}+\omega_4+h(t))C_2
+\]</span></p>
+<p>The acquisition rate <span class="math inline">\(\alpha\)</span>
+appearing in each equation, and governing the transition rates between
+the S compartments and the C compartments, is assumed to depend on the
+number of colonized patients in the facility, as follows:</p>
+<p><span class="math display">\[ \alpha = \beta_1 C_1 + \beta_2 C_2
+\]</span></p>
+<div id="facility-basic-reproduction-number-r_0" class="section level2">
+<h2>Facility Basic Reproduction Number <span class="math inline">\(R_0\)</span></h2>
+<p>We will demonstrate how to calculate the basic reproduction number
+<span class="math inline">\(R_0\)</span> of this system using the
+<code>facilityR0</code> function. The following components of the system
+are required as inputs to the function call below.</p>
+<div id="the-s-matrix-pre-invasion-susceptible-state-transitions" class="section level3">
+<h3>The <code>S</code> matrix; pre-invasion susceptible state
+transitions</h3>
+<p>A matrix <code>S</code> governing the transitions between, and out
+of, the states <span class="math inline">\(S_1\)</span> and <span class="math inline">\(S_2\)</span> in the absence of any colonized
+patients “invading” the facility (i.e., all state transitions except for
+acquiring colonization):</p>
+<p><span class="math display">\[S = \left(
+\begin{matrix}
+    -s_{21}-\omega_1 &amp; s_{12} \\
+    s_{21} &amp; -s_{12}-\omega_2
+\end{matrix}\right)
+\]</span></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>s21 <span class="ot">&lt;-</span> <span class="dv">1</span>; s12 <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>omega1 <span class="ot">&lt;-</span> omega2 <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>S <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="sc">-</span>s21<span class="sc">-</span>omega1, s12), <span class="fu">c</span>(s21, <span class="sc">-</span>s12<span class="sc">-</span>omega2))</span></code></pre></div>
+<p>The <span class="math inline">\(s_{ij}\)</span> rates can be used to
+model transitions between different patient states that might alter
+susceptibility to acquiring the modeled organism, for example risky
+treatment procedures, drug exposures, or protective measures. The <span class="math inline">\(\omega_i\)</span> rates model removal from the
+facility via discharge or death.</p>
+</div>
+<div id="the-c-matrix-colonized-state-transitions" class="section level3">
+<h3>The <code>C</code> matrix; colonized state transitions</h3>
+<p>Next, we require a matrix <code>C</code> governing the transitions
+between, and out of, the states <span class="math inline">\(C_1\)</span>
+and <span class="math inline">\(C_2\)</span>:</p>
+<p><span class="math display">\[C = \left(
+\begin{matrix}
+    -c_{21}-r_{11}-r_{21}-\omega_3 &amp; c_{12} \\
+    c_{21} &amp; -c_{12}-r_{12}-r_{22}-\omega_4
+\end{matrix}\right)
+\]</span></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>c21 <span class="ot">&lt;-</span> <span class="fl">0.1</span>; c12 <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>r11 <span class="ot">&lt;-</span> r22 <span class="ot">&lt;-</span> <span class="fl">0.1</span>; r12 <span class="ot">&lt;-</span> r21 <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>omega3 <span class="ot">&lt;-</span> omega4 <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>C <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="sc">-</span>c21<span class="sc">-</span>r11<span class="sc">-</span>r21<span class="sc">-</span>omega3, c12), <span class="fu">c</span>(c21, <span class="sc">-</span>c12<span class="sc">-</span>r12<span class="sc">-</span>r22<span class="sc">-</span>omega4))</span></code></pre></div>
+<p>The <span class="math inline">\(c_{ij}\)</span> rates can be used to
+model transitions between different colonized patient states that might
+be observable in data and/or alter the patient’s infectivity to other
+patients, for example clinical infection, detection status, or placement
+under protective measures. The <span class="math inline">\(r_{ij}\)</span> rates govern clearance of
+colonization (thus, transitions back to one of the susceptible states),
+while the <span class="math inline">\(\omega_i\)</span> rates model
+removal from the facility via discharge or death.</p>
+</div>
+<div id="the-a-matrix-susceptible-to-colonized-state-transitions-and-relative-susceptibility" class="section level3">
+<h3>The <code>A</code> matrix; susceptible-to-colonized state
+transitions and relative susceptibility</h3>
+<p>The next input requirement is a matrix <code>A</code> describing the
+S-to-C state transitions when an acquisition occurs:</p>
+<p><span class="math display">\[A = \left(
+\begin{matrix}
+    a_{11} &amp; a_{12} \\
+    a_{21} &amp; a_{22}
+\end{matrix}\right)
+\]</span></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>a11 <span class="ot">&lt;-</span> <span class="dv">1</span>; a22 <span class="ot">&lt;-</span> <span class="dv">2</span>; a12 <span class="ot">&lt;-</span> a21 <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(a11,a12),<span class="fu">c</span>(a21,a22))</span></code></pre></div>
+<p>The <span class="math inline">\(a_ij\)</span> rates describe which of
+the two colonized states can be entered from each of the two susceptible
+states at the moment of acquiring colonization; in the above example,
+state <span class="math inline">\(S_1\)</span> patients move only to
+state <span class="math inline">\(C_1\)</span> and state <span class="math inline">\(S_2\)</span> patients move only to state <span class="math inline">\(C_2\)</span>. The <span class="math inline">\(a_ij\)</span> values also describe the
+susceptibility of the two <span class="math inline">\(S\)</span> states;
+in the above example, state <span class="math inline">\(S_2\)</span>
+patients are twice as susceptible as state <span class="math inline">\(S_1\)</span> patients.</p>
+</div>
+<div id="the-transm-vector-transmission-rates" class="section level3">
+<h3>The <code>transm</code> vector: transmission rates</h3>
+<p>The next required input is a vector <code>transm</code> containing
+the <span class="math inline">\(\beta\)</span> coefficients
+(transmission rates from each colonized compartment) appearing in the
+<span class="math inline">\(\alpha\)</span> equation above: <span class="math inline">\((\beta_1,\beta_2)\)</span></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>beta1 <span class="ot">&lt;-</span> <span class="fl">0.2</span>; beta2 <span class="ot">&lt;-</span> <span class="fl">0.3</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>transm <span class="ot">&lt;-</span> <span class="fu">c</span>(beta1, beta2)</span></code></pre></div>
+<p>The <span class="math inline">\(\beta_j\)</span> values describe the
+transmissibility of each colonized state; in this example, state <span class="math inline">\(C_2\)</span> patients are 50% more transmissible
+than state <span class="math inline">\(C_1\)</span> patients. When the
+levels of colonization in the facility are <span class="math inline">\(C_1\)</span> and <span class="math inline">\(C_2\)</span>, the acquisition rate of an <span class="math inline">\(S_i\)</span> patient is <span class="math inline">\(a_{ii}(\beta_1C_1+\beta_2C_2)\)</span></p>
+</div>
+<div id="the-inits-vector-susceptible-state-admission-distribution" class="section level3">
+<h3>The <code>initS</code> vector: susceptible state admission
+distribution</h3>
+<p>A vector <code>initS</code> containing the admission state
+probabilities for the susceptible compartments only (i.e., the
+pre-invasion system before a colonized patient is introduced): <span class="math inline">\((\theta_1,1-\theta_1)\)</span></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>theta1 <span class="ot">&lt;-</span> <span class="fl">0.9</span>; theta2 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> theta1</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>initS <span class="ot">&lt;-</span> <span class="fu">c</span>(theta1, theta2)</span></code></pre></div>
+<p>The <code>initS</code> vector should sum to 1.</p>
+</div>
+<div id="facilityr0-function-call-with-ht0" class="section level3">
+<h3><code>facilityR0</code> function call with <span class="math inline">\(h(t)=0\)</span></h3>
+<p>The time-of-stay-dependent removal rate <span class="math inline">\(h(t)\)</span> is the remaining component in the
+master equations above. When <span class="math inline">\(h(t)=0\)</span>, the above components are
+sufficient to calculate the facility <span class="math inline">\(R_0\)</span> as in the following example:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">facilityR0</span>(S,C,A,transm,initS)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">#&gt; [1] 1.763978</span></span></code></pre></div>
+<p>Note that when <span class="math inline">\(h(t)=0\)</span>, the
+removal rates (discharge and death) are entirely governed by the <span class="math inline">\(\omega_i\)</span> values, which must be set such
+that patients in any state must be guaranteed to eventually reach a
+state for which <span class="math inline">\(\omega_i&gt;0\)</span>;
+otherwise, patients can have an infinitely long length of stay in the
+facility.</p>
+</div>
+<div id="the-mgf-function-moment-generating-function-associated-with-htneq0" class="section level3">
+<h3>The <code>mgf</code> function: moment generating function associated
+with <span class="math inline">\(h(t)\neq0\)</span></h3>
+<p>When the time-of-stay-dependent removal rate <span class="math inline">\(h(t)\neq0\)</span>, there is one additional
+argument required as input to the <code>facilityR0</code> function: a
+function <code>mgf(x,deriv)</code> that is the moment-generating
+function (and its derivatives) of the distribution for which <span class="math inline">\(h(t)\)</span> is the hazard function. This is the
+length of stay distribution when the state-dependent removal rates <span class="math inline">\(\omega\)</span> are all zero, as in the following
+example.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>omega1 <span class="ot">&lt;-</span> omega2 <span class="ot">&lt;-</span> omega3 <span class="ot">&lt;-</span> omega4 <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>S <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="sc">-</span>s21<span class="sc">-</span>omega1, s12), <span class="fu">c</span>(s21, <span class="sc">-</span>s12<span class="sc">-</span>omega2))</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>C <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="sc">-</span>c21<span class="sc">-</span>r11<span class="sc">-</span>r21<span class="sc">-</span>omega3, c12), <span class="fu">c</span>(c21, <span class="sc">-</span>c12<span class="sc">-</span>r12<span class="sc">-</span>r22<span class="sc">-</span>omega4))</span></code></pre></div>
+<p>The length of stay distribution can be any statistical distribution
+with non-negative range, as long as the moment generating function (mgf)
+and its derivatives can be evaluated, as this calculation is required
+within the <span class="math inline">\(R_0\)</span> formula. We
+currently provide three mgf functions in this package: one for the
+exponential distribution, <code>MGFexponential</code>, one for the gamma
+distribution <code>MGFgamma</code>, and one for a mixed gamma
+distribution <code>MGFmixedgamma</code>; the latter distribution can
+employ a weighted mixture of any number of different gamma
+distributions.</p>
+<p>The <code>mgf(x, deriv)</code> function to be passed to
+<code>facilityR0()</code> must be defined as in the following example,
+which uses a gamma distribution.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>mgf <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">deriv=</span><span class="dv">0</span>) <span class="fu">MGFgamma</span>(x, <span class="at">rate=</span><span class="fl">0.1</span>, <span class="at">shape=</span><span class="fl">3.1</span>, deriv)</span></code></pre></div>
+</div>
+<div id="facilityr0-function-call-with-htneq0" class="section level3">
+<h3><code>facilityR0</code> function call with <span class="math inline">\(h(t)\neq0\)</span></h3>
+<p>The call to <code>facilityR0()</code> is the same as above with the
+additional argument <code>mgf</code> (which defaulted to
+<code>NULL</code> when not provided):</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">facilityR0</span>(S,C,A,transm,initS,mgf)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="co">#&gt; [1] 2.570984</span></span></code></pre></div>
+</div>
+</div>
+<div id="facility-model-equilibrium" class="section level2">
+<h2>Facility model equilibrium</h2>
+<p>We will demonstrate how to calculate the equilibrium of the full
+system of equations, with a given set of initial conditions,
+i.e. distribution of patient states at admission, using the
+<code>facilityeq</code> function. The following components of the system
+are required as inputs to the function call below.</p>
+<p>The matrix <code>S</code>, the matrix <code>C</code>, the matrix
+<code>A</code>, the vector <code>transm</code>, and the (optional)
+function <code>mgf</code> are the same as those required by the
+<code>facilityR0</code> function as described above. The following are
+new components:</p>
+<div id="the-r-matrix-recovery-rates" class="section level3">
+<h3>The <code>R</code> matrix: recovery rates</h3>
+<p>The matrix <code>R</code> describing C-to-S state transition rates:
+<span class="math display">\[R = \left(
+\begin{matrix}
+    r_{11} &amp; r_{12} \\
+    r_{21} &amp; r_{22}
+\end{matrix}\right)
+\]</span></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>R <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(r11,r12),<span class="fu">c</span>(r21,r22))</span></code></pre></div>
+</div>
+<div id="the-init-vector-admission-state-distribution" class="section level3">
+<h3>The <code>init</code> vector: admission state distribution</h3>
+<p>A vector <code>init</code> containing the admission state
+probabilities for all four compartments: <span class="math inline">\(((1-p_a)\theta_1,(1-p_a)(1-\theta_1),p_a\kappa_1,p_a(1-\kappa_1))\)</span></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>pa <span class="ot">&lt;-</span> <span class="fl">0.05</span>; kappa1 <span class="ot">&lt;-</span> <span class="dv">1</span>; kappa2 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">-</span>kappa1</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>init <span class="ot">&lt;-</span> <span class="fu">c</span>((<span class="dv">1</span><span class="sc">-</span>pa)<span class="sc">*</span>theta1, (<span class="dv">1</span><span class="sc">-</span>pa)<span class="sc">*</span>theta2, pa<span class="sc">*</span>kappa1, pa<span class="sc">*</span>kappa2)</span></code></pre></div>
+<p>Here we have modeled an importation probability (probability of an
+admitted patient being colonized at admission) of 5%, and assumed that
+all admitted colonized patients are in state <span class="math inline">\(C_1\)</span>.</p>
+<p>The <code>init</code> vector should sum to 1.</p>
+</div>
+<div id="facilityeq-function-call-with-htneq0" class="section level3">
+<h3><code>facilityeq</code> function call with <span class="math inline">\(h(t)\neq0\)</span></h3>
+<p>We can now calculate the equilibrium of the facility model:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">facilityeq</span>(S, C, A, R, transm, init, mgf)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="co">#&gt; [1] 0.2447589 0.1233193 0.1880693 0.4438525</span></span></code></pre></div>
+<p>The result is the portion of patients in the facility who are in each
+of the state <span class="math inline">\(S_1\)</span>, <span class="math inline">\(S_2\)</span>, <span class="math inline">\(C_1\)</span>, and <span class="math inline">\(C_2\)</span>, respectively, at equilibrium.</p>
+</div>
+<div id="facilityeq-function-call-with-ht0" class="section level3">
+<h3><code>facilityeq</code> function call with <span class="math inline">\(h(t)=0\)</span></h3>
+<p>We can also leave out the mgf argument when <span class="math inline">\(h(t)=0\)</span>, but should first reintroduce
+positive <span class="math inline">\(\omega\)</span> values in the
+diagonal of the <span class="math inline">\(S\)</span> and <span class="math inline">\(C\)</span> matrices to represent discharge of
+patients:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>omega1 <span class="ot">&lt;-</span> omega2 <span class="ot">&lt;-</span> omega3 <span class="ot">&lt;-</span> omega4 <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>S <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="sc">-</span>s21<span class="sc">-</span>omega1, s12), <span class="fu">c</span>(s21, <span class="sc">-</span>s12<span class="sc">-</span>omega2))</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>C <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="sc">-</span>c21<span class="sc">-</span>r11<span class="sc">-</span>r21<span class="sc">-</span>omega3, c12), <span class="fu">c</span>(c21, <span class="sc">-</span>c12<span class="sc">-</span>r12<span class="sc">-</span>r22<span class="sc">-</span>omega4))</span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="fu">facilityeq</span>(S, C, A, R, transm, init)</span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="co">#&gt; [1] 0.3685012 0.1739270 0.1650132 0.2925586</span></span></code></pre></div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
