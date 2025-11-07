@@ -1,13 +1,14 @@
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+<!-- README.md is generated from README.qmd. Please edit that file -->
 
 # facilityepimath
 
-<!-- badges: start -->
-
-[![ForeSITE
-Group](https://github.com/EpiForeSITE/software/blob/e82ed88f75e0fe5c0a1a3b38c2b94509f122019c/docs/assets/foresite-software-badge.svg)](https://github.com/EpiForeSITE)
-<!-- badges: end -->
+[![CRAN
+status](https://www.r-pkg.org/badges/version/facilityepimath)](https://CRAN.R-project.org/package=facilityepimath)
+[![CRANlogs
+downloads](https://cranlogs.r-pkg.org/badges/facilityepimath)](https://cran.r-project.org/package=facilityepimath)
+[![ForeSITE Group](https://github.com/EpiForeSITE/software/raw/e82ed88f75e0fe5c0a1a3b38c2b94509f122019c/docs/assets/foresite-software-badge.svg)](https://github.com/EpiForeSITE)
 
 The goal of facilityepimath is to provide functions to calculate useful
 quantities for a user-defined differential equation model of infectious
@@ -17,12 +18,13 @@ A full description and derivation of the mathematical results
 implemented in these functions can be found in the following manuscript:
 
 Toth D, Khader K, Mitchell M, Samore M (2025). Transmission thresholds
-for the spread of infections in healthcare facilities.
-<https://doi.org/10.1101/2025.02.21.25322698>.
+for the spread of infections in healthcare facilities. PLoS
+Computational Biology 21(10): e1013577.
+https://doi.org/10.1371/journal.pcbi.1013577.
 
 This work was supported by the Centers for Disease Control and
 Prevention, Modeling Infectious Diseases in Healthcare Network award
-U01CK000585.
+U01CK000585 and Insight Net award number CDC-RFA-FT-23-0069.
 
 ## Installation
 
@@ -58,20 +60,24 @@ respectively.
 A system of differential equations with those 4 compartments may take
 the following general form:
 
-$$ \frac{dS_1}{dt} = -(s_{21}+(a_{11}+a_{21})\alpha+\omega_1+h(t))S_1 + s_{12}S_2 + r_{11}C_1 + r_{12}C_2$$
+$$
+\frac{dS_1}{dt} = -(s_{21}+(a_{11}+a_{21})\alpha+\omega_1+h(t))S_1 + s_{12}S_2 + r_{11}C_1 + r_{12}C_2
+$$
 
-$$\frac{dS_2}{dt} = s_{21}S_1 - (s_{12}+(a_{12}+a_{22})\alpha+\omega_2+h(t))S_2 + r_{21}C_1 + r_{22}C_2 $$
-
-$$\frac{dC_1}{dt} = a_{11}\alpha S_1 + a_{12}\alpha S_2 - (c_{21}+r_{11}+r_{21}+\omega_3+h(t))C_1 + c_{12}C_2 $$
-
-$$\frac{dC_2}{dt} = a_{21}\alpha S_1 + a_{22}\alpha S_2 + c_{21}C_1 - (c_{12}+r_{12}+r_{22}+\omega_4+h(t))C_2 $$
+$$
+\frac{dS_2}{dt} = s_{21}S_1 - (s_{12}+(a_{12}+a_{22})\alpha+\omega_2+h(t))S_2 + r_{21}C_1 + r_{22}C_2
+$$ $$
+\frac{dC_1}{dt} = a_{11}\alpha S_1 + a_{12}\alpha S_2 - (c_{21}+r_{11}+r_{21}+\omega_3+h(t))C_1 + c_{12}C_2
+$$ $$
+\frac{dC_2}{dt} = a_{21}\alpha S_1 + a_{22}\alpha S_2 + c_{21}C_1 - (c_{12}+r_{12}+r_{22}+\omega_4+h(t))C_2
+$$
 
 The acquisition rate $\alpha$ appearing in each equation, and governing
 the transition rates between the S compartments and the C compartments,
 is assumed to depend on the number of colonized patients in the
 facility, as follows:
 
-$$ \alpha = \beta_1 C_1 + \beta_2 C_2 $$
+$$\alpha = \beta_1 C_1 + \beta_2 C_2$$
 
 We will demonstrate how to calculate the basic reproduction number $R_0$
 of this system using the `facilityR0` function. The following components
@@ -80,7 +86,8 @@ of the system are required as inputs to the function call below.
 A matrix `S` governing the transitions between, and out of, the states
 $S_1$ and $S_2$ in the absence of any colonized patients:
 
-$$S = \left(
+$$
+S = \left(
 \begin{matrix}
     -s_{21}-\omega_1 & s_{12} \\
     s_{21} & -s_{12}-\omega_2
@@ -90,17 +97,19 @@ $$
 A matrix `C` governing the transitions between, and out of, the states
 $C_1$ and $C_2$:
 
-$$C = \left(
+$$
+C = \left(
 \begin{matrix}
-    - (c_{21}+r_{11}+r_{21}+\omega_3) & c_{12} \\
-    c_{21} & - (c_{12}+r_{12}+r_{22}+\omega_4)
+    -c_{21}-r_{11}-r_{21}-\omega_3 & c_{12} \\
+    c_{21} & -c_{12}-r_{12}-r_{22}-\omega_4
 \end{matrix}\right)
 $$
 
 A matrix `A` describing the S-to-C state transitions when an acquisition
 occurs:
 
-$$A = \left(
+$$
+A = \left(
 \begin{matrix}
     a_{11} & a_{12} \\
     a_{21} & a_{22}
@@ -117,7 +126,7 @@ colonized patient is introduced): $(\theta_1,1-\theta_1)$
 
 A function `mgf(x,deriv)` that is the moment-generating function (and
 its derivatives) of the distribution for which the
-time-of-stay-dependent removal rate `h(t)` is the hazard function. This
+time-of-stay-dependent removal rate $h(t)$ is the hazard function. This
 is the length of stay distribution when the state-dependent removal
 rates $\omega$ are zero.
 

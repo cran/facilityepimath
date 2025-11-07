@@ -1,10 +1,12 @@
 # This code produces the results in Tables 3 and 4 of the manuscript:
-# "Transmission thresholds for the spread of infections in healthcare facilities"
+# "Transmission thresholds for the spread of infections in healthcare facilities" by Toth et al. (2025)
+# https://doi.org/10.1371/journal.pcbi.1013577
+
+library(facilityepimath)
 
 snstvty <- 0.85
 gam <- 1/387
 eps <- 0.5
-
 mu <- 33.8
 l25 <- 16
 l50 <- 28
@@ -18,7 +20,7 @@ haydenSet <- rbind(admPos = c(mean=0.206, sd=0.017/z95),
                    xSecPos = c(mean=0.458, sd=0.037/z95),
                    clinDetInc = getNorm(n=178516, ns=656))
 
-rLHS <- read.table("inst/extdata/rLHS.txt", header=TRUE)
+rLHS <- read.table(system.file("extdata/rLHS.txt", package = "facilityepimath"), header = TRUE)
 numRuns <- nrow(rLHS)
 
 getLHSval <- function(prmName,i)

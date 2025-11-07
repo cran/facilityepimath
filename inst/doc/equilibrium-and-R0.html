@@ -12,7 +12,7 @@
 
 
 
-<title>equilibrium-and-R0</title>
+<title>Facility basic reproduction number and equilibrium calculations</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -336,7 +336,8 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<h1 class="title toc-ignore">equilibrium-and-R0</h1>
+<h1 class="title toc-ignore">Facility basic reproduction number and
+equilibrium calculations</h1>
 
 
 
@@ -437,11 +438,11 @@ S-to-C state transitions when an acquisition occurs:</p>
 \]</span></p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>a11 <span class="ot">&lt;-</span> <span class="dv">1</span>; a22 <span class="ot">&lt;-</span> <span class="dv">2</span>; a12 <span class="ot">&lt;-</span> a21 <span class="ot">&lt;-</span> <span class="dv">0</span></span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(a11,a12),<span class="fu">c</span>(a21,a22))</span></code></pre></div>
-<p>The <span class="math inline">\(a_ij\)</span> rates describe which of
-the two colonized states can be entered from each of the two susceptible
-states at the moment of acquiring colonization; in the above example,
-state <span class="math inline">\(S_1\)</span> patients move only to
-state <span class="math inline">\(C_1\)</span> and state <span class="math inline">\(S_2\)</span> patients move only to state <span class="math inline">\(C_2\)</span>. The <span class="math inline">\(a_ij\)</span> values also describe the
+<p>The <span class="math inline">\(a_{ij}\)</span> rates describe which
+of the two colonized states can be entered from each of the two
+susceptible states at the moment of acquiring colonization; in the above
+example, state <span class="math inline">\(S_1\)</span> patients move
+only to state <span class="math inline">\(C_1\)</span> and state <span class="math inline">\(S_2\)</span> patients move only to state <span class="math inline">\(C_2\)</span>. The <span class="math inline">\(a_{ij}\)</span> values also describe the
 susceptibility of the two <span class="math inline">\(S\)</span> states;
 in the above example, state <span class="math inline">\(S_2\)</span>
 patients are twice as susceptible as state <span class="math inline">\(S_1\)</span> patients.</p>
