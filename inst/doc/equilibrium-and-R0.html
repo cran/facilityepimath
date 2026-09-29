@@ -48,8 +48,9 @@ overflow: visible;
 }
 </style>
 <style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -558,7 +559,7 @@ all admitted colonized patients are in state <span class="math inline">\(C_1\)</
 <h3><code>facilityeq</code> function call with <span class="math inline">\(h(t)\neq0\)</span></h3>
 <p>We can now calculate the equilibrium of the facility model:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">facilityeq</span>(S, C, A, R, transm, init, mgf)</span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="co">#&gt; [1] 0.2447589 0.1233193 0.1880693 0.4438525</span></span></code></pre></div>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="co">#&gt; [1] 0.2426824 0.1224719 0.1879328 0.4469129</span></span></code></pre></div>
 <p>The result is the portion of patients in the facility who are in each
 of the state <span class="math inline">\(S_1\)</span>, <span class="math inline">\(S_2\)</span>, <span class="math inline">\(C_1\)</span>, and <span class="math inline">\(C_2\)</span>, respectively, at equilibrium.</p>
 </div>
